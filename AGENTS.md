@@ -12,8 +12,8 @@ nothing to compile. The installer symlinks the configs into place so a plain `gi
 | Path | Purpose |
 |------|---------|
 | `ghostty/config` | Ghostty settings — symlinked to `~/.config/ghostty/config` |
-| `tmux/.tmux.conf` | tmux config (prefix, panes, windows, sessions) — symlinked to `~/.tmux.conf` |
-| `install.sh` | Bootstrap installer: uses a local checkout or clones/pulls into `~/.terminal-setup`, symlinks both configs (`ln -sf`), and installs a `terminal-setup` shell command into `~/.zshrc`/`~/.bashrc` |
+| `tmux/.tmux.conf` | tmux config (prefix, panes, windows, sessions, truecolor) + a TPM plugin layer (catppuccin status bar, resurrect/continuum, sessionx, yank, vim-tmux-navigator) — symlinked to `~/.tmux.conf` |
+| `install.sh` | Bootstrap installer: uses a local checkout or clones/pulls into `~/.terminal-setup`, symlinks both configs (`ln -sf`), clones TPM into `~/.tmux/plugins/tpm`, and installs a `terminal-setup` shell command into `~/.zshrc`/`~/.bashrc` |
 | `README.md` | User-facing docs + full keybinding reference |
 
 ## Build & run
@@ -29,6 +29,9 @@ Update with `terminal-setup update` (or `git pull`) — symlinks reflect changes
 - **macOS-first.** The Ghostty config assumes macOS (`macos-option-as-alt`). Note any platform
   assumptions if you add config.
 - **Symlink, don't copy.** `install.sh` must keep using `ln -sf` so `git pull` stays sufficient to update.
+- **tmux plugins via TPM.** Declare plugins with `set -g @plugin '…'`; the `run '~/.tmux/plugins/tpm/tpm'`
+  line **must stay last** in `.tmux.conf`. `install.sh` bootstraps TPM; the plugins themselves install on
+  first `prefix I`. Catppuccin is pinned (`catppuccin/tmux#v2.1.3`) — bump deliberately.
 - **Keep the installer idempotent.** Re-running `install.sh` must be safe: the rc edit is a single
   marked block (`# >>> terminal-setup >>>` … `# <<< terminal-setup <<<`) that is stripped and rewritten,
   never appended twice. Don't rename those markers — it would orphan old blocks.

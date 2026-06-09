@@ -38,7 +38,17 @@ echo "  ✓ ghostty/config"
 ln -sf "$DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 echo "  ✓ tmux/.tmux.conf"
 
-# ── 3. Install the `terminal-setup` shell command (idempotent managed block) ──
+# ── 3. tmux plugin manager (TPM) — required by the plugin layer in .tmux.conf ──
+if [ -d "$HOME/.tmux/plugins/tpm/.git" ]; then
+  echo "  ✓ tpm (already present)"
+elif command -v git >/dev/null 2>&1; then
+  echo "Installing TPM (tmux plugin manager)"
+  git clone --depth 1 https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm" && echo "  ✓ tpm"
+else
+  echo "  ! git not found — skipping TPM; install git and re-run to get tmux plugins" >&2
+fi
+
+# ── 4. Install the `terminal-setup` shell command (idempotent managed block) ──
 install_block() {
   rc="$1"
   tmp="${rc}.terminal-setup.tmp"
@@ -84,3 +94,4 @@ echo "Done."
 echo "  • Restart your shell (or 'source ~/.zshrc') to get the 'terminal-setup' command."
 echo "  • Update later with:  terminal-setup update"
 echo "  • Reload now: ghostty (Cmd+Shift+,), tmux (prefix R)."
+echo "  • In tmux, press 'prefix I' (Ctrl+Space then Shift+i) to install plugins."

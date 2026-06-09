@@ -9,13 +9,16 @@ Minimal macOS terminal setup: [Ghostty](https://ghostty.org) + [tmux](https://gi
 - Prefix remapped to `Ctrl+Space`
 - Vim-style pane navigation (no prefix needed)
 - Option-key shortcuts for window/session management
-- Mouse support enabled
-- Clickable URLs
+- **Catppuccin Mocha** theme — Ghostty *and* the tmux status bar
+- **Session persistence** (resurrect + continuum) and an **fzf session picker** (sessionx)
+- Truecolor, mouse support, clickable URLs
 
 ## Requirements
 
 - macOS (the Ghostty config uses `macos-option-as-alt`)
 - [Ghostty](https://ghostty.org) and `tmux` installed (e.g. `brew install --cask ghostty` + `brew install tmux`)
+- [`fzf`](https://github.com/junegunn/fzf) — for the sessionx session picker (`brew install fzf`)
+- tmux plugins install on first launch via `prefix I` (TPM is set up automatically by the installer)
 
 ## Installation
 
@@ -56,6 +59,21 @@ terminal-setup update
 Pulls the latest; because the configs are symlinked, your live setup updates in place — no re-install. Reload tmux with `prefix R` afterward.
 
 > Don't have the command yet? `cd ~/.terminal-setup && git pull` does the same thing, or just re-run the install one-liner.
+
+## Plugins
+
+Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.conf`). Install/update with `prefix I` / `prefix U`.
+
+| Plugin | Purpose |
+|--------|---------|
+| tpm | Plugin manager |
+| tmux-sensible | Sensible defaults |
+| tmux-resurrect | Save/restore sessions (`prefix C-s` / `prefix C-r`) |
+| tmux-continuum | Auto-save + auto-restore sessions |
+| tmux-yank | Clipboard integration |
+| catppuccin/tmux | Catppuccin Mocha status bar |
+| tmux-sessionx | fzf session picker (`prefix o`) — needs `fzf` |
+| vim-tmux-navigator | Seamless vim/tmux pane navigation |
 
 ## Keybindings
 
@@ -105,7 +123,10 @@ Pulls the latest; because the configs are symlinked, your live setup updates in 
 | Key | Action |
 |-----|--------|
 | `prefix n` | New session |
+| `prefix o` | Session picker — sessionx (fzf) |
 | `Option+n` | Rename session (no prefix) |
+| `prefix C-s` | Save sessions (resurrect) |
+| `prefix C-r` | Restore sessions (resurrect) |
 
 ### tmux — Other
 
@@ -113,13 +134,16 @@ Pulls the latest; because the configs are symlinked, your live setup updates in 
 |-----|--------|
 | `prefix R` | Reload tmux config |
 | `prefix /` | Search (copy mode) |
+| `prefix I` | Install plugins (TPM) |
+| `prefix U` | Update plugins (TPM) |
+| `Ctrl+h/j/k/l` | Navigate vim/tmux panes (vim-tmux-navigator) |
 
 ## Structure
 
 ```
 ghostty/config    → ~/.config/ghostty/config
 tmux/.tmux.conf   → ~/.tmux.conf
-install.sh        → clones/links + installs the `terminal-setup` command
+install.sh        → clones/links, bootstraps TPM, installs the `terminal-setup` command
 ```
 
 ## License
