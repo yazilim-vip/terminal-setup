@@ -1,7 +1,7 @@
 #!/bin/sh
 # terminal-setup installer.
 #
-# One-liner (clones into ~/.terminal-setup, then links + installs the command):
+# One-liner (clones into $XDG_DATA_HOME/terminal-setup, then links + installs the command):
 #   sh -c "$(curl -fsSL https://raw.githubusercontent.com/yazilim-vip/terminal-setup/main/install.sh)"
 #
 # Or from a local clone:
@@ -11,7 +11,7 @@
 set -e
 
 REPO_URL="https://github.com/yazilim-vip/terminal-setup.git"
-DIR="${TERMINAL_SETUP_DIR:-$HOME/.terminal-setup}"
+DIR="${TERMINAL_SETUP_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/terminal-setup}"
 
 BLOCK_START="# >>> terminal-setup >>>"
 BLOCK_END="# <<< terminal-setup <<<"
@@ -27,6 +27,7 @@ elif [ -d "$DIR/.git" ]; then
 else
   command -v git >/dev/null 2>&1 || { echo "git is required to install" >&2; exit 1; }
   echo "Cloning terminal-setup into $DIR"
+  mkdir -p "$(dirname "$DIR")"
   git clone "$REPO_URL" "$DIR"
 fi
 
@@ -66,7 +67,7 @@ install_block() {
     printf '\n%s\n' "$BLOCK_START"
     cat <<'FUNC'
 terminal-setup() {
-  local dir="${TERMINAL_SETUP_DIR:-$HOME/.terminal-setup}"
+  local dir="${TERMINAL_SETUP_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/terminal-setup}"
   case "$1" in
     update) git -C "$dir" pull --ff-only && echo "terminal-setup: updated — reload tmux with 'tmux source ~/.tmux.conf'" ;;
     path)   echo "$dir" ;;

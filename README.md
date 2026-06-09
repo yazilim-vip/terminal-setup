@@ -22,7 +22,7 @@ Minimal macOS terminal setup: [Ghostty](https://ghostty.org) + [tmux](https://gi
 
 ## Installation
 
-One command — clones into `~/.terminal-setup`, symlinks the configs, and adds a `terminal-setup` command to your shell:
+One command — clones into `~/.local/share/terminal-setup`, symlinks the configs, and adds a `terminal-setup` command to your shell:
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/yazilim-vip/terminal-setup/main/install.sh)"
@@ -32,15 +32,15 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/yazilim-vip/terminal-setup
 <summary>Prefer to clone manually?</summary>
 
 ```bash
-git clone https://github.com/yazilim-vip/terminal-setup.git ~/.terminal-setup
-~/.terminal-setup/install.sh
+git clone https://github.com/yazilim-vip/terminal-setup.git ~/.local/share/terminal-setup
+~/.local/share/terminal-setup/install.sh
 ```
 
 </details>
 
 What the installer does:
 
-- Clones the repo to `~/.terminal-setup` (override with `TERMINAL_SETUP_DIR=/path`).
+- Clones the repo to `~/.local/share/terminal-setup` (XDG `$XDG_DATA_HOME`; override with `TERMINAL_SETUP_DIR=/path`).
 - Symlinks the configs (it does not copy them):
   ```
   ghostty/config    → ~/.config/ghostty/config
@@ -58,7 +58,7 @@ terminal-setup update
 
 Pulls the latest; because the configs are symlinked, your live setup updates in place — no re-install. Reload tmux with `prefix R` afterward.
 
-> Don't have the command yet? `cd ~/.terminal-setup && git pull` does the same thing, or just re-run the install one-liner.
+> Don't have the command yet? `cd ~/.local/share/terminal-setup && git pull` does the same thing, or just re-run the install one-liner.
 
 ## Plugins
 
