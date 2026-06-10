@@ -113,7 +113,7 @@ Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.c
 |-----|--------|
 | `prefix c` | New window |
 | `Option+0` / `Option+t` | New window (no prefix) |
-| `prefix 1-5` | Switch to window 1-5 |
+| `prefix 1-5` / `Option+1-5` | Switch to window 1-5 |
 | `prefix p` | Previous window |
 | `prefix <` / `>` | Swap window left/right |
 | `Option+r` | Rename window (no prefix) |
