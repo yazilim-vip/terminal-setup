@@ -84,14 +84,19 @@ Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.c
 | `Cmd+Shift+,` | Reload config |
 | `Cmd+click` | Open URL |
 
-### tmux — Pane Navigation (no prefix)
+### tmux — Panes, no prefix (Option)
 
 | Key | Action |
 |-----|--------|
-| `Option+j` | Focus pane left |
+| `Option+h` / `Option+j` | Focus pane left |
 | `Option+k` | Focus pane down |
 | `Option+i` | Focus pane up |
 | `Option+l` | Focus pane right |
+| `Option+d` | Split right |
+| `Option+e` / `Option+D` | Split down |
+| `Option+Enter` | Toggle zoom |
+| `Option+x` | Kill pane (confirm) |
+| `Option+m` | Move pane to window |
 
 ### tmux — Pane Management (prefix: `Ctrl+Space`)
 
@@ -113,9 +118,11 @@ Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.c
 |-----|--------|
 | `prefix c` | New window |
 | `Option+0` / `Option+t` | New window (no prefix) |
-| `prefix 1-5` / `Option+1-5` | Switch to window 1-5 |
+| `prefix 1-5` / `Option+1-9` | Switch to window (`Option+9` = last) |
+| `Option+[` / `Option+]` | Previous / next window (no prefix) |
 | `prefix p` | Previous window |
-| `prefix <` / `>` | Swap window left/right |
+| `prefix <` / `>` | Swap window left / right |
+| `Option+,` / `Option+.` | Swap window left / right (no prefix) |
 | `Option+r` | Rename window (no prefix) |
 
 ### tmux — Sessions
@@ -123,8 +130,8 @@ Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.c
 | Key | Action |
 |-----|--------|
 | `prefix n` | New session |
-| `prefix o` | Session picker — sessionx (fzf) |
-| `Option+n` | Rename session (no prefix) |
+| `prefix o` / `Option+o` | Session picker — sessionx (fzf) |
+| `Option+n` / `Option+R` | Rename session (no prefix) |
 | `prefix C-s` | Save sessions (resurrect) |
 | `prefix C-r` | Restore sessions (resurrect) |
 
@@ -132,6 +139,7 @@ Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.c
 
 | Key | Action |
 |-----|--------|
+| `Option+c` / `Option+K` | Clear screen + scrollback |
 | `prefix R` | Reload tmux config |
 | `prefix /` | Search (copy mode) |
 | `prefix I` | Install plugins (TPM) |
