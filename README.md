@@ -46,7 +46,7 @@ What the installer does:
   ghostty/config    → ~/.config/ghostty/config
   tmux/.tmux.conf   → ~/.tmux.conf
   ```
-- Adds a `terminal-setup` shell command to `~/.zshrc` (and `~/.bashrc` if present), in a clearly marked block.
+- Adds a `terminal-setup` shell command — plus a `k9s` alias that pins k9s to the `xterm-ghostty` terminfo so its menu hints don't gray out under tmux — to `~/.zshrc` (and `~/.bashrc` if present), in a clearly marked block.
 
 Afterward, reload Ghostty (`Cmd+Shift+,`) and tmux (`prefix R`), and restart your shell (or `source ~/.zshrc`) to pick up the `terminal-setup` command.
 
@@ -57,6 +57,8 @@ terminal-setup update
 ```
 
 Pulls the latest; because the configs are symlinked, your live setup updates in place — no re-install. Reload tmux with `prefix R` afterward.
+
+> Changes to the **shell block** (the `terminal-setup` command and the `k9s` alias) are written into your rc file, not symlinked — re-run the installer to refresh them on an existing install.
 
 > Don't have the command yet? `cd ~/.local/share/terminal-setup && git pull` does the same thing, or just re-run the install one-liner.
 

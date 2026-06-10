@@ -74,6 +74,11 @@ terminal-setup() {
     *)      echo "usage: terminal-setup {update|path}" ;;
   esac
 }
+
+# k9s grays out its menu hints under tmux: tmux-256color advertises the `dim`
+# (faint) capability, Ghostty's terminfo (xterm-ghostty) does not. Pin k9s to the
+# dim-less terminfo so the menu renders bright both in and out of tmux.
+alias k9s='TERM=xterm-ghostty k9s'
 FUNC
     printf '%s\n' "$BLOCK_END"
   } >> "$tmp"
