@@ -92,7 +92,12 @@ tmux() {
   elif [ -n "$TMUX" ]; then
     command tmux run-shell ~/.tmux/plugins/tmux-sessionx/scripts/sessionx.sh
   else
-    command tmux new-session -A -s hub
+    # Create the lobby DETACHED first, then attach. `new-session -A` would
+    # create-and-attach in one step on first use, and client-attached does not
+    # fire on create — only on a real attach — so the picker would silently not
+    # open until the second run.
+    command tmux has-session -t hub 2>/dev/null || command tmux new-session -d -s hub
+    command tmux attach -t hub
   fi
 }
 FUNC
