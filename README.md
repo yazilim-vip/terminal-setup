@@ -47,28 +47,33 @@ What the installer does:
   ghostty/config    → ~/.config/ghostty/config
   tmux/.tmux.conf   → ~/.tmux.conf
   ```
-- Adds a `terminal-setup` shell command — plus a `tm` alias (see [Starting tmux](#starting-tmux)) and a `k9s` alias that pins k9s to the `xterm-ghostty` terminfo so its menu hints don't gray out under tmux — to `~/.zshrc` (and `~/.bashrc` if present), in a clearly marked block.
+- Adds a `terminal-setup` shell command — plus a `tm` function (see [Starting tmux](#starting-tmux)) and a `k9s` alias that pins k9s to the `xterm-ghostty` terminfo so its menu hints don't gray out under tmux — to `~/.zshrc` (and `~/.bashrc` if present), in a clearly marked block.
 
 Afterward, reload Ghostty (`Cmd+Shift+,`) and tmux (`prefix R`), and restart your shell (or `source ~/.zshrc`) to pick up the `terminal-setup` command.
 
 ## Starting tmux
 
-Use `tm` instead of `tmux`:
+Just run `tmux`:
 
 ```bash
-tm
+tmux
 ```
 
-Plain `tmux` drops you into a fresh unnamed session (`0`, `1`, …) and `tmux a` silently grabs
-whichever session you touched last — both make it easy to accumulate junk sessions. `tm` instead
-attaches to a permanent lobby session called `hub`, and a `client-attached` hook on that session
-opens the sessionx picker straight away. So starting tmux always means an explicit choice:
+Stock `tmux` drops you into a fresh unnamed session (`0`, `1`, …), so sessions pile up unnamed and
+unnoticed. Here, bare `tmux` opens the sessionx picker instead — starting tmux is always an explicit
+choice:
 
 - **Existing session** — select it in the picker and you're switched to it.
 - **New session** — type a name that doesn't exist yet; sessionx creates it and switches you there.
 
-`hub` is only a doorway — you never work in it, and it costs one idle session. Attaching to a real
-session directly (`tmux a -t work`) is unaffected: the hook only fires for `hub`.
+It works the same from inside or outside tmux. Outside, it attaches to a permanent lobby session
+called `hub` whose `client-attached` hook opens the picker; inside, it opens the picker directly
+(tmux refuses to nest sessions). `hub` is only a doorway — you never work in it, and it costs one
+idle session.
+
+**`tmux` with any argument passes straight through, untouched** — `tmux ls`, `tmux a -t work`,
+`tmux kill-session -t old` all behave exactly as stock tmux. Only the bare, argument-less call is
+intercepted, and only in interactive shells, so scripts are unaffected.
 
 > Requires `fzf`, same as the `prefix o` picker.
 
@@ -80,7 +85,7 @@ terminal-setup update
 
 Pulls the latest; because the configs are symlinked, your live setup updates in place — no re-install. Reload tmux with `prefix R` afterward.
 
-> Changes to the **shell block** (the `terminal-setup` command and the `tm` / `k9s` aliases) are written into your rc file, not symlinked — re-run the installer to refresh them on an existing install.
+> Changes to the **shell block** (the `terminal-setup` command, the `tmux` wrapper and the `k9s` alias) are written into your rc file, not symlinked — re-run the installer to refresh them on an existing install.
 
 > Don't have the command yet? `cd ~/.local/share/terminal-setup && git pull` does the same thing, or just re-run the install one-liner.
 

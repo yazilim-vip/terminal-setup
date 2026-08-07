@@ -13,7 +13,7 @@ nothing to compile. The installer symlinks the configs into place so a plain `gi
 |------|---------|
 | `ghostty/config` | Ghostty settings — symlinked to `~/.config/ghostty/config` |
 | `tmux/.tmux.conf` | tmux config (prefix, panes, windows, sessions, truecolor) + a TPM plugin layer (catppuccin status bar, resurrect/continuum, sessionx, yank, vim-tmux-navigator) — symlinked to `~/.tmux.conf` |
-| `install.sh` | Bootstrap installer: uses a local checkout or clones/pulls into `$XDG_DATA_HOME/terminal-setup` (`~/.local/share/terminal-setup`), symlinks both configs (`ln -sf`), clones TPM into `~/.tmux/plugins/tpm`, and installs a `terminal-setup` shell command + a `tm` alias (attaches to the `hub` lobby session, whose `client-attached` hook opens the sessionx picker — so starting tmux always forces a session choice) + a `k9s` alias (pins k9s to the dim-less `xterm-ghostty` terminfo so its menus don't gray out under tmux) into `~/.zshrc`/`~/.bashrc` |
+| `install.sh` | Bootstrap installer: uses a local checkout or clones/pulls into `$XDG_DATA_HOME/terminal-setup` (`~/.local/share/terminal-setup`), symlinks both configs (`ln -sf`), clones TPM into `~/.tmux/plugins/tpm`, and installs a `terminal-setup` shell command + a `tmux` wrapper function (bare `tmux` opens the sessionx picker instead of creating an unnamed session — outside tmux by attaching to the `hub` lobby whose `client-attached` hook fires the picker, inside tmux by running the picker directly since `new-session -A` refuses to nest; `tmux` WITH arguments passes straight through) + a `k9s` alias (pins k9s to the dim-less `xterm-ghostty` terminfo so its menus don't gray out under tmux) into `~/.zshrc`/`~/.bashrc` |
 | `README.md` | User-facing docs + full keybinding reference |
 
 ## Build & run

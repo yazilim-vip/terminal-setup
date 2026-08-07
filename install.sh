@@ -80,11 +80,21 @@ terminal-setup() {
 # dim-less terminfo so the menu renders bright both in and out of tmux.
 alias k9s='TERM=xterm-ghostty k9s'
 
-# Start tmux by *choosing* a session instead of landing in an unnamed one.
-# `tm` attaches to the "hub" lobby session (creating it if needed); the
-# client-attached hook in .tmux.conf then opens the sessionx picker, where you
-# pick an existing session or type a new name to create it.
-alias tm='tmux new-session -A -s hub'
+# Bare `tmux` opens the session picker instead of silently creating an unnamed
+# session: pick an existing session, or type a new name to create it.
+#   outside tmux -> attach to the "hub" lobby, whose client-attached hook in
+#                   .tmux.conf opens the picker
+#   inside tmux  -> open the picker directly (`new-session -A` refuses to nest)
+# Any `tmux` call WITH arguments passes straight through, untouched.
+tmux() {
+  if [ "$#" -gt 0 ]; then
+    command tmux "$@"
+  elif [ -n "$TMUX" ]; then
+    command tmux run-shell ~/.tmux/plugins/tmux-sessionx/scripts/sessionx.sh
+  else
+    command tmux new-session -A -s hub
+  fi
+}
 FUNC
     printf '%s\n' "$BLOCK_END"
   } >> "$tmp"
