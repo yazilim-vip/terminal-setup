@@ -11,6 +11,7 @@ Minimal macOS terminal setup: [Ghostty](https://ghostty.org) + [tmux](https://gi
 - Option-key shortcuts for window/session management
 - **Catppuccin Mocha** theme — Ghostty *and* the tmux status bar
 - **Session persistence** (resurrect + continuum) and an **fzf session picker** (sessionx)
+- `tm` starts tmux by **forcing a session choice** — pick an existing one or name a new one
 - Truecolor, mouse support, clickable URLs
 
 ## Requirements
@@ -46,9 +47,30 @@ What the installer does:
   ghostty/config    → ~/.config/ghostty/config
   tmux/.tmux.conf   → ~/.tmux.conf
   ```
-- Adds a `terminal-setup` shell command — plus a `k9s` alias that pins k9s to the `xterm-ghostty` terminfo so its menu hints don't gray out under tmux — to `~/.zshrc` (and `~/.bashrc` if present), in a clearly marked block.
+- Adds a `terminal-setup` shell command — plus a `tm` alias (see [Starting tmux](#starting-tmux)) and a `k9s` alias that pins k9s to the `xterm-ghostty` terminfo so its menu hints don't gray out under tmux — to `~/.zshrc` (and `~/.bashrc` if present), in a clearly marked block.
 
 Afterward, reload Ghostty (`Cmd+Shift+,`) and tmux (`prefix R`), and restart your shell (or `source ~/.zshrc`) to pick up the `terminal-setup` command.
+
+## Starting tmux
+
+Use `tm` instead of `tmux`:
+
+```bash
+tm
+```
+
+Plain `tmux` drops you into a fresh unnamed session (`0`, `1`, …) and `tmux a` silently grabs
+whichever session you touched last — both make it easy to accumulate junk sessions. `tm` instead
+attaches to a permanent lobby session called `hub`, and a `client-attached` hook on that session
+opens the sessionx picker straight away. So starting tmux always means an explicit choice:
+
+- **Existing session** — select it in the picker and you're switched to it.
+- **New session** — type a name that doesn't exist yet; sessionx creates it and switches you there.
+
+`hub` is only a doorway — you never work in it, and it costs one idle session. Attaching to a real
+session directly (`tmux a -t work`) is unaffected: the hook only fires for `hub`.
+
+> Requires `fzf`, same as the `prefix o` picker.
 
 ## Updating
 
@@ -58,7 +80,7 @@ terminal-setup update
 
 Pulls the latest; because the configs are symlinked, your live setup updates in place — no re-install. Reload tmux with `prefix R` afterward.
 
-> Changes to the **shell block** (the `terminal-setup` command and the `k9s` alias) are written into your rc file, not symlinked — re-run the installer to refresh them on an existing install.
+> Changes to the **shell block** (the `terminal-setup` command and the `tm` / `k9s` aliases) are written into your rc file, not symlinked — re-run the installer to refresh them on an existing install.
 
 > Don't have the command yet? `cd ~/.local/share/terminal-setup && git pull` does the same thing, or just re-run the install one-liner.
 
@@ -131,6 +153,7 @@ Managed by [TPM](https://github.com/tmux-plugins/tpm) (declared in `tmux/.tmux.c
 
 | Key | Action |
 |-----|--------|
+| `tm` (shell command) | Start tmux via the session picker — never lands in an unnamed session |
 | `prefix n` | New session |
 | `prefix o` / `Option+o` | Session picker — sessionx (fzf) |
 | `Option+n` / `Option+R` | Rename session (no prefix) |

@@ -79,6 +79,12 @@ terminal-setup() {
 # (faint) capability, Ghostty's terminfo (xterm-ghostty) does not. Pin k9s to the
 # dim-less terminfo so the menu renders bright both in and out of tmux.
 alias k9s='TERM=xterm-ghostty k9s'
+
+# Start tmux by *choosing* a session instead of landing in an unnamed one.
+# `tm` attaches to the "hub" lobby session (creating it if needed); the
+# client-attached hook in .tmux.conf then opens the sessionx picker, where you
+# pick an existing session or type a new name to create it.
+alias tm='tmux new-session -A -s hub'
 FUNC
     printf '%s\n' "$BLOCK_END"
   } >> "$tmp"
